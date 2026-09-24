@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DevOps Store</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <h1>🛒 Rizzy's Store</h1>
+
+    <p>Welcome to our simple e-commerce application.</p>
+
+    <nav>
+        <a href="/">Home</a>
+        |
+        <a href="/products">Products</a>
+        |
+        <a href="/about">About</a>
+    </nav>
+
+    <h2>Featured Products</h2>
+
+    <div class="products">
+
+        {% for product in products[:3] %}
+
+        <div class="product-card">
+
+            <h3>{{ product.name }}</h3>
+
+            <p>₹{{ product.price }}</p>
+
+            <a href="/product/{{ product.id }}">
+                View Product
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <br>
+
+    <a href="/products">View All Products →</a>
+
+</body>
+</html>
