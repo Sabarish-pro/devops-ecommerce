@@ -1,33 +1,31 @@
+
 pipeline {
-	agent any
-	
+    agent any
 
-	environment {
-		IMAGE_NAME = 'devops-ecommerce:ci'
-	}
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
 
+        stage('Test') {
+            steps {
+                sh 'python3 -m pytest -v'
+            }
+        }
 
-	stages {
-		stage('Checkout') {
-			steps {
-				checkout scm
-			}
-	}
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t devops-ecommerce:ci .'
+            }
+        }
 
-	stage('Build Docker Image') {
-		steps {
-			sh 'docker build -t devops-ecommerce:ci .'
-		}
-	}
-
-	stage('Trivy Security scan') {
-		steps {
-			sh 'trivy image --scanners vuln devops-ecommerce:ci'
-		}
-	}
-		
-     }	
-
-   }
-
+        stage('Trivy Security Scan') {
+            steps {
+                sh 'trivy image --scanners vuln devops-ecommerce:ci'
+            }
+        }
+    }
 }
+
