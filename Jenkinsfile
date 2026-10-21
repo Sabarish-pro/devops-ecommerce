@@ -33,11 +33,32 @@ pipeline {
         }
 
 	stage('Deploy with Docker Compose') {
-		steps {
+	    steps {
 			sh 'docker compose up -d --build'
 			sh 'docker compose up'
 		}
 	}
+        stage('Verify Deployment') {
+	    steps {
+               sh '''
+                   for i in $(seq 1 10); do
+                       if curl -fsS http://localhost:5003/health; then
+                           echo "Deployment verification successful"
+                           exit 0
+                       fi
+                       echo "Waiting for application..."
+                       sleep 3
+                   done
+
+                   echo "Deployment verification failed"
+                   exit 1
+                '''
+             }
+
+
+         }
+
     }
+
 }
 
