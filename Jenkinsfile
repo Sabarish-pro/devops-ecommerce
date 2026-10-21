@@ -42,7 +42,7 @@ pipeline {
 	    steps {
                sh '''
                    for i in $(seq 1 10); do
-                       if curl -fsS http://localhost:5003/health; then
+                       if curl -fsS http://localhost:5004/health; then
                            echo "Deployment verification successful"
                            exit 0
                        fi
