@@ -1,42 +1,60 @@
-# Flask E-Commerce DevOps Project
+# Containerized E-Commerce Application with CI/CD
 
-A Flask web application with a containerized deployment workflow.
+## Project Overview
+Containerized a Flask-based e-commerce web application using Docker and Docker Compose. Implemented a Jenkins CI/CD pipeline to automate testing, Docker image building, and Trivy vulnerability scanning.
 
-## Technology Stack
+## Technologies Used
+- Linux (Ubuntu)
 - Python and Flask
+- Docker and Docker Compose
+- Jenkins
+- Pytest
+- Trivy
 - Git and GitHub
-- Docker
-- Docker Compose
 - Gunicorn
 
-## Project Features
-- Containerized Flask application
-- Docker image built from a version-controlled Dockerfile
-- Docker Compose configuration for repeatable deployment
-- Application health endpoint for deployment verification
+## Architecture
+1. Code is maintained in GitHub.
+2. Jenkins checks out the repository.
+3. Pytest executes automated application tests.
+4. Docker builds the application image.
+5. Trivy scans the image for known vulnerabilities.
+6. Docker Compose runs the application container.
 
-## Run Locally with Docker
+## Run Locally
 
-Build the image:
+### Prerequisites
+Docker Engine and Docker Compose.
 
+### Start the Application
 ```bash
-docker build -t devops-ecommerce:2.0 .
+git clone https://github.com/Sabarish-pro/devops-ecommerce.git
+cd devops-ecommerce
+docker compose up -d --build
 ```
 
-Run the container:
-
+### Verify the Health Endpoint
 ```bash
-docker run -d --name ecommerce-app -p 5003:5000 devops-ecommerce:2.0
+curl http://localhost:5003/health
 ```
 
-Verify the health endpoint:
+Expected response: `OK`
 
+### View Logs and Stop
 ```bash
-curl http://127.0.0.1:5003/health
+docker compose logs -f web
+docker compose down
 ```
 
-## Future Improvements
-- Jenkins CI/CD pipeline
-- Trivy container image scanning
-- Automated testing
-- Deployment monitoring and logging
+## Automated Testing
+The project includes pytest tests for the Flask application. Jenkins runs the tests before building and scanning the Docker image.
+
+## Security Scanning
+Trivy scans the built image for known vulnerabilities. Findings should be reviewed and addressed according to severity; a successful pipeline does not necessarily mean the image is vulnerability-free.
+
+## Key Learning Outcomes
+- Containerized a Python web application.
+- Configured Docker Compose service management and health checks.
+- Automated testing and image builds through Jenkins.
+- Integrated container vulnerability scanning using Trivy.
+
