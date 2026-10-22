@@ -34,8 +34,8 @@ pipeline {
 
 	stage('Deploy with Docker Compose') {
 	    steps {
-			sh 'docker compose -p devops-ecommerce up -d --build'
-			sh 'docker compose -p devops-ecommerce ps'
+			sh 'docker compose -p devops-ecommerce-pipeline up -d --build'
+			sh 'docker compose -p devops-ecommerce-pipeline ps'
 		}
 	}
         stage('Verify Deployment') {
