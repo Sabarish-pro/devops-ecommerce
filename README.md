@@ -1,60 +1,61 @@
 # Containerized E-Commerce Application with CI/CD
 
 ## Project Overview
-Containerized a Flask-based e-commerce web application using Docker and Docker Compose. Implemented a Jenkins CI/CD pipeline to automate testing, Docker image building, and Trivy vulnerability scanning.
+Built and deployed a Flask-based e-commerce web application using Docker and Docker Compose. Automated testing, container image building, vulnerability scanning, and deployment using a Jenkins CI/CD pipeline.
 
 ## Technologies Used
-- Linux (Ubuntu)
-- Python and Flask
-- Docker and Docker Compose
-- Jenkins
-- Pytest
-- Trivy
-- Git and GitHub
-- Gunicorn
+- **Application:** Python, Flask, Gunicorn
+- **Containerization:** Docker, Docker Compose
+- **CI/CD:** Jenkins
+- **Testing:** Pytest
+- **Security Scanning:** Trivy
+- **Version Control:** Git, GitHub
 
 ## Architecture
-1. Code is maintained in GitHub.
-2. Jenkins checks out the repository.
-3. Pytest executes automated application tests.
-4. Docker builds the application image.
-5. Trivy scans the image for known vulnerabilities.
-6. Docker Compose runs the application container.
+GitHub → Jenkins Checkout → Pytest → Docker Image Build → Trivy Vulnerability Scan → Docker Compose Deployment → Health Check
+
+## Key Features
+- Containerized Flask application using a multi-stage Dockerfile.
+- Automated application tests with Pytest.
+- Automated Docker image builds through Jenkins.
+- Vulnerability scanning with Trivy.
+- Deployment and container management using Docker Compose.
+- Health-check endpoint at `/health`.
+- Runs the application as a non-root user.
 
 ## Run Locally
 
-### Prerequisites
-Docker Engine and Docker Compose.
+Build and start the application:
 
-### Start the Application
 ```bash
-git clone https://github.com/Sabarish-pro/devops-ecommerce.git
-cd devops-ecommerce
 docker compose up -d --build
 ```
 
-### Verify the Health Endpoint
+Check container status:
+
 ```bash
-curl http://localhost:5003/health
+docker compose ps
 ```
 
-Expected response: `OK`
+Test the health endpoint:
 
-### View Logs and Stop
 ```bash
-docker compose logs -f web
-docker compose down
+curl -i http://localhost:5003/health
 ```
 
-## Automated Testing
-The project includes pytest tests for the Flask application. Jenkins runs the tests before building and scanning the Docker image.
+The local Compose port may differ from the Jenkins deployment port.
 
-## Security Scanning
-Trivy scans the built image for known vulnerabilities. Findings should be reviewed and addressed according to severity; a successful pipeline does not necessarily mean the image is vulnerability-free.
+## Jenkins CI/CD Pipeline
+1. Checkout source code from GitHub.
+2. Install test dependencies and execute Pytest.
+3. Build the Docker image.
+4. Scan the image for vulnerabilities using Trivy.
+5. Deploy the application using Docker Compose.
+6. Verify deployment using the `/health` endpoint.
 
-## Key Learning Outcomes
-- Containerized a Python web application.
-- Configured Docker Compose service management and health checks.
-- Automated testing and image builds through Jenkins.
-- Integrated container vulnerability scanning using Trivy.
+## Deployment Verification
+The Jenkins deployment was verified successfully. The container reached a healthy state, and the `/health` endpoint returned HTTP `200 OK` with the response `OK`.
+
+## Repository
+https://github.com/Sabarish-pro/devops-ecommerce
 
