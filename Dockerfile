@@ -38,7 +38,9 @@ RUN rm -rf /usr/local/lib/python3.12/site-packages/pip \
 
 WORKDIR /app
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
+ENV HOME=/tmp \
+    XDG_CONFIG_HOME=/tmp \
+    PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PATH="/opt/venv/bin:$PATH"
 
@@ -52,5 +54,4 @@ USER 10001:10001
 
 EXPOSE 5000
 
-CMD ["/opt/venv/bin/gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
-
+CMD ["/opt/venv/bin/gunicorn", "--worker-tmp-dir", "/tmp", "--bind", "0.0.0.0:5000", "app:app"]
